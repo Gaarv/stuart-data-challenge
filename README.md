@@ -1,4 +1,112 @@
-# :globe_with_meridians: Unique Geohash :globe_with_meridians:
+:globe_with_meridians: Unique Geohash :globe_with_meridians:
+===
+
+<br/>
+
+# Requirements
+
+* make (if not present, `apt install make` on Linux Debian or `brew install make` on Mac)
+* the current sources (python-test-sebastienhoarau)
+
+A Makefile provides convenient shortcuts for most tasks.
+
+<br/>
+
+# Setup
+
+Create a dedicated Python virtual environment, ie. with [conda](https://docs.conda.io/en/latest/miniconda.html):
+
+    conda create -n geo-transformer python=3.9 pip
+
+Activate the virtual environment:
+
+    conda activate geo-transformer
+
+Install minimum requirements and package locally with:
+
+    make install
+
+at the root of the project.
+
+<br/>
+
+# Usage
+
+Change directory to `geo_transformer` directory:
+
+    cd geo_transformer
+
+then run:
+
+    python app.py data/test_points.txt.gz
+
+to use the provided sample data and print output to the console.
+
+You can also use any file respecting the same schema as the one provided, compressed in GZ format for the `INPUT_FILE` argument.
+
+<br/>
+
+List all available commands with:
+
+    python app.py --help
+
+<br/>
+
+# Project structure
+
+```
+python-test-sebastienhoarau
+├── LICENSE
+├── Makefile
+├── README.md            # this file
+├── geo_transformer      # main package
+│   ├── __init__.py
+│   ├── app.py           # application entrypoint
+│   ├── data             # sample application data
+│   ├── io.py            # input/output functions
+│   ├── models.py        # datas structures
+│   ├── tests            # tests
+│   └── transformer.py   # transformer functions (geohash encoding, unique prefix)
+├── pyproject.toml
+├── requirements-dev.in  # dev requirements
+├── requirements-dev.txt # compiled dev requirements with pip-compile
+├── requirements.in      # requirements
+├── requirements.txt     # compiled requirements with pip-compile
+└── setup.py
+```
+
+Python source code is formatted with [Black](https://github.com/psf/black).
+
+<br/>
+
+# Development environment
+
+Similar to [Setup](#setup), while at the root of the project, install development requirements and package locally with:
+
+`make install-dev`.
+
+<br/>
+
+# Run tests
+
+Tests can be run with:
+
+`make test`
+
+The console prints tests outputs as well as code coverage.
+
+<br/>
+
+# Updating dependencies
+
+The requirements files `requirements.txt` and `requirements-dev.txt` are generated with `pip-compile` from [pip-tools](https://github.com/jazzband/pip-tools). 
+
+* update `requirements.in` and `requirements-dev.in` as needed
+* run `pip-compile requirements.in` and `pip-compile requirements-dev.in` to update the compiled requirements.
+
+<br/>
+
+# Original Problem Statement
 
 Your task is to transform the set of longitude, latitude coordinates provided in the `test_points.txt.gz` file
 into corresponding [GeoHash](https://en.wikipedia.org/wiki/Geohash) codes.
@@ -22,6 +130,8 @@ lat,lng,geohash,uniq
 41.390743,2.138067,sp3e2wuys9dr,sp3e2wuy
 41.390853,2.138177,sp3e2wuzpnhr,sp3e2wuz
 ```
+
+<br/>
 
 ## :nerd_face: We value in the solution
 

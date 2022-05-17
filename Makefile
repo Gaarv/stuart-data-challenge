@@ -1,8 +1,15 @@
 .PHONY: all
 
-test:
+install:
+	pip install -r requirements.txt
+	pip install -U .
 
-run:
+install-dev:
+	pip install -r requirements-dev.txt
+	pip install -U .
+
+test:
+	python -m pytest --cov -v -s
 
 benchmark:
 
