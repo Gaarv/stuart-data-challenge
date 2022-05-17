@@ -55,6 +55,6 @@ def print_to_console(geohashs: Generator[Geohash, None, None]) -> None:
     Args:
         locations (Generator[Geohash, None, None]): Geohash objects
     """
-    typer.echo("lat,lng,geohash")  # print header
+    typer.echo("lat,lng,geohash,uniq")  # print header
     for geohash in geohashs:
-        typer.secho(f"{geohash.location.lat},{geohash.location.lng},{geohash.geohash}")
+        typer.secho(f"{geohash.location.lat},{geohash.location.lng},{geohash.geohash},{geohash.uniq}")

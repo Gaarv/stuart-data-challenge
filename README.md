@@ -3,16 +3,12 @@
 :globe_with_meridians: Unique Geohash :globe_with_meridians:
 ===
 
-<br/>
-
 # Requirements
 
 * make (if not present, `apt install make` on Linux Debian or `brew install make` on Mac)
 * the current sources (python-test-sebastienhoarau)
 
 A Makefile provides convenient shortcuts for most tasks.
-
-<br/>
 
 # Setup
 
@@ -29,8 +25,6 @@ Install minimum requirements and package locally with:
     make install
 
 at the root of the project.
-
-<br/>
 
 # Usage
 
@@ -51,8 +45,6 @@ You can also use any file respecting the same schema as the one provided, compre
 List all available commands with:
 
     python app.py --help
-
-<br/>
 
 # Project structure
 
@@ -79,15 +71,11 @@ python-test-sebastienhoarau
 
 Python source code is formatted with [Black](https://github.com/psf/black).
 
-<br/>
-
 # Development environment
 
 Similar to [Setup](#setup), while at the root of the project, install development requirements and package locally with:
 
 `make install-dev`.
-
-<br/>
 
 # Run tests
 
@@ -97,16 +85,12 @@ Tests can be run with:
 
 The console prints tests outputs as well as code coverage.
 
-<br/>
-
 # Updating dependencies
 
 The requirements files `requirements.txt` and `requirements-dev.txt` are generated with `pip-compile` from [pip-tools](https://github.com/jazzband/pip-tools). 
 
 * update `requirements.in` and `requirements-dev.in` as needed
 * run `pip-compile requirements.in` and `pip-compile requirements-dev.in` to update the compiled requirements.
-
-<br/>
 
 # Original Problem Statement
 
@@ -132,8 +116,6 @@ lat,lng,geohash,uniq
 41.390743,2.138067,sp3e2wuys9dr,sp3e2wuy
 41.390853,2.138177,sp3e2wuzpnhr,sp3e2wuz
 ```
-
-<br/>
 
 ## :nerd_face: We value in the solution
 

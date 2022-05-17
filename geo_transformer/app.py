@@ -1,3 +1,4 @@
+from functools import partial
 from pathlib import Path
 from typing import Optional
 
@@ -17,11 +18,16 @@ def main(
     if input_file.is_file():
         extracted_file = io.extract_from_file(input_file)
         if extracted_file:
-            locations = io.load_locations(extracted_file)
+            stream_locations = partial(io.load_locations, extracted_file)
+            prefixes = (transformer.encode(location.lat, location.lng) for location in stream_locations())
+            if verbose:
+                typer.secho(f"Loading locations from {extracted_file.as_posix()}", fg=typer.colors.GREEN, err=True)
+            index = transformer.build(prefixes)
+            geohashs = transformer.transform(stream_locations(), index)
             if not output_file:
-                geohashs = transformer.transform(locations)
                 io.print_to_console(geohashs)
             else:
+                # TODO - write to file
                 pass
         else:
             raise typer.Exit(code=1)
