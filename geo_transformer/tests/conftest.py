@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Optional
 
 import pytest
-from geo_transformer.io import extract_from_file, load_points
+from geo_transformer.io import extract_from_file, load_locations
 
 TEST_FILE = Path("geo_transformer/tests/data/test_points.txt.gz")
 
@@ -13,9 +13,9 @@ def extracted_file():
 
 
 @pytest.fixture(scope="function")
-def data_test_points(extracted_file: Optional[Path]):
+def data_test_locations(extracted_file: Optional[Path]):
     if extracted_file:
-        data_points = load_points(extracted_file)
+        data_points = load_locations(extracted_file)
         return data_points
     else:
         return []

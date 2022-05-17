@@ -9,8 +9,9 @@ install-dev:
 	pip install -U .
 
 test:
-	python -m pytest --cov -v -s
+	python -m pytest --cov -v -s -k "not benchmark"
 
 benchmark:
+	python -m pytest --cov -v -s -k "benchmark"
 
 profile:

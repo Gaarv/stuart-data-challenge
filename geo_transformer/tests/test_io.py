@@ -1,4 +1,4 @@
-from geo_transformer.io import extract_from_file, load_points
+from geo_transformer.io import extract_from_file, load_locations
 from geo_transformer.tests.conftest import TEST_FILE
 
 
@@ -10,5 +10,5 @@ def test_extract_from_file():
 
 
 def test_load_points(extracted_file):
-    data_points = load_points(extracted_file)
+    data_points = load_locations(extracted_file)
     assert len(list(data_points)) == 3

@@ -3,7 +3,7 @@ from typing import Optional
 
 import typer
 
-from geo_transformer import io
+from geo_transformer import io, transformer
 
 app = typer.Typer()
 
@@ -17,15 +17,16 @@ def main(
     if input_file.is_file():
         extracted_file = io.extract_from_file(input_file)
         if extracted_file:
-            locations = io.load_points(extracted_file)
+            locations = io.load_locations(extracted_file)
             if not output_file:
-                io.print_to_console(locations)
+                geohashs = transformer.transform(locations)
+                io.print_to_console(geohashs)
             else:
                 pass
         else:
             raise typer.Exit(code=1)
     else:
-        typer.secho(f"Input file {input_file} does  not exist", fg=typer.colors.RED)
+        typer.secho(f"Input file {input_file} does not exist", fg=typer.colors.RED)
         raise typer.Exit(code=1)
 
 

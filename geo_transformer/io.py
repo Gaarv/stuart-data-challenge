@@ -2,11 +2,11 @@ import csv
 import gzip
 import tempfile
 from pathlib import Path
-from typing import Generator, Optional
+from typing import Optional, Generator
 
 import typer
 
-from geo_transformer.models import Location
+from geo_transformer.models import Location, Geohash
 
 
 def extract_from_file(archive: Path) -> Optional[Path]:
@@ -29,7 +29,7 @@ def extract_from_file(archive: Path) -> Optional[Path]:
     return extracted_file
 
 
-def load_points(csv_file: Path) -> Generator[Location, None, None]:
+def load_locations(csv_file: Path) -> Generator[Location, None, None]:
     """Load points from CSV file as Location objects
 
     Args:
@@ -49,12 +49,12 @@ def load_points(csv_file: Path) -> Generator[Location, None, None]:
         yield from ()
 
 
-def print_to_console(locations: Generator[Location, None, None]):
-    """Print locations to console
+def print_to_console(geohashs: Generator[Geohash, None, None]) -> None:
+    """Print Geohash objects to console as CSV
 
     Args:
-        locations (Generator[Location, None, None]): Location objects
+        locations (Generator[Geohash, None, None]): Geohash objects
     """
-    typer.echo("lat,lng")  # print header
-    for location in locations:
-        typer.secho(f"{location.lat},{location.lng}")
+    typer.echo("lat,lng,geohash")  # print header
+    for geohash in geohashs:
+        typer.secho(f"{geohash.location.lat},{geohash.location.lng},{geohash.geohash}")
