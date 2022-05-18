@@ -2,15 +2,18 @@ import csv
 import gzip
 import tempfile
 from pathlib import Path
-from typing import Optional, Generator
+from typing import Generator, Optional
 
 import typer
 
-from geo_transformer.models import Location, Geohash
+from geo_transformer.models import Geohash, Location
+
+GZIP_MAGIC_BYTES = "1f8b"
+CSV_HEADER = ["lat", "lng", "geohash", "uniq"]
 
 
 def extract_from_file(archive: Path) -> Optional[Path]:
-    """Extract GZ file containing raw data
+    """Extract gzip file containing raw data
 
     Args:
         archive (Path): path to the archive, ie. "data/input.gz"
@@ -20,12 +23,15 @@ def extract_from_file(archive: Path) -> Optional[Path]:
     """
     extracted_file = None
     try:
+        magic_bytes = archive.open("rb").read(2).hex()
+        if magic_bytes != GZIP_MAGIC_BYTES:
+            raise Exception(f"Input file {archive.as_posix()} is not a valid gzip file")
         dest = Path(tempfile.mkdtemp()).joinpath(archive.stem)
         content = gzip.decompress(archive.open("rb").read())
         dest.write_bytes(content)
         extracted_file = dest
     except Exception as e:
-        typer.secho(f"Error while extracting archive {archive}: {e}", fg=typer.colors.RED, err=True)
+        typer.secho(f"Error while extracting archive {archive.as_posix()}: {e}", fg=typer.colors.RED, err=True)
     return extracted_file
 
 
@@ -55,6 +61,20 @@ def print_to_console(geohashs: Generator[Geohash, None, None]) -> None:
     Args:
         locations (Generator[Geohash, None, None]): Geohash objects
     """
-    typer.echo("lat,lng,geohash,uniq")  # print header
+    typer.echo(",".join(CSV_HEADER))  # print header
     for geohash in geohashs:
         typer.secho(f"{geohash.location.lat},{geohash.location.lng},{geohash.geohash},{geohash.uniq}")
+
+
+def write_to_file(output_file: Path, geohashs: Generator[Geohash, None, None]) -> None:
+    """Write Geohash objects to CSV file
+
+    Args:
+        output_file (Path): path to the output file, ie. "data/output.csv"
+        geohashs (Generator[Geohash, None, None]): Geohash objects
+    """
+    with output_file.open("w") as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow(CSV_HEADER)
+        for geohash in geohashs:
+            csvwriter.writerow([geohash.location.lat, geohash.location.lng, geohash.geohash, geohash.uniq])

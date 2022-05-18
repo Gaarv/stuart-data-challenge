@@ -38,7 +38,7 @@ then run:
 
 to use the provided sample data and print output to the console.
 
-You can also use any file respecting the same schema as the one provided, compressed in GZ format for the `INPUT_FILE` argument.
+You can also use any file respecting the same schema as the one provided, compressed in gzip format for the `INPUT_FILE` argument.
 
 <br/>
 
@@ -84,6 +84,12 @@ Tests can be run with:
 `make test`
 
 The console prints tests outputs as well as code coverage.
+
+# Run benchmarks
+
+Benchmarks can be run with:
+
+`make benchmark`
 
 # Updating dependencies
 

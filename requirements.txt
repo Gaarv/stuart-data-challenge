@@ -12,5 +12,14 @@ future==0.18.2
     # via geolib
 geolib==1.0.7
     # via -r requirements.in
+llvmlite==0.38.0
+    # via numba
+numba==0.55.1
+    # via -r requirements.in
+numpy==1.21.6
+    # via numba
 typer==0.4.1
     # via -r requirements.in
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools

@@ -1,20 +1,35 @@
+import tempfile
+from pathlib import Path
+
 from geo_transformer.app import app
-from geo_transformer.tests.conftest import TEST_FILE
+from geo_transformer.tests.conftest import EXPECTED_TEST_OUTPUT, TEST_FILE
 from typer.testing import CliRunner
 
 runner = CliRunner()
 
 
-def test_app():
+def test_app_stdout():
     result = runner.invoke(app, [TEST_FILE.as_posix()])
     assert result.exit_code == 0
-    assert "lat,lng,geohash,uniq" in result.stdout
-    assert "41.388828145321,2.1689976634898" in result.stdout
-    assert "41.390743,2.138067" in result.stdout
-    assert "41.390853,2.138177" in result.stdout
-    assert "sp3e3qe7mkcb" in result.stdout
-    assert "sp3e2wuys9dr" in result.stdout
-    assert "sp3e2wuzpnhr" in result.stdout
-    assert "sp3e3" in result.stdout
-    assert "sp3e2wuy" in result.stdout
-    assert "sp3e2wuz" in result.stdout
+    assert result.output == EXPECTED_TEST_OUTPUT
+
+
+def test_app_output_to_file():
+    with tempfile.NamedTemporaryFile(suffix=".csv") as output_file:
+        result = runner.invoke(app, [TEST_FILE.as_posix(), "--output-file", output_file.name])
+        assert result.exit_code == 0
+        assert Path(output_file.name).read_text() == EXPECTED_TEST_OUTPUT
+
+
+def test_app_non_existing_file():
+    test_file = "non_existing_file.csv"
+    result = runner.invoke(app, [test_file])
+    assert result.exit_code == 1
+    assert result.output == f"Input file {test_file} does not exist\n"
+
+
+def test_app_non_gz_file():
+    with tempfile.NamedTemporaryFile(suffix=".gz") as test_file:
+        result = runner.invoke(app, [test_file.name])
+        assert result.exit_code == 1
+        assert result.output == f"Error while extracting archive {test_file.name}: Input file {test_file.name} is not a valid gzip file\n"

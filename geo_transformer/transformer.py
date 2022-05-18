@@ -1,6 +1,8 @@
-from geolib import geohash as geohashlib
-from geo_transformer.models import Geohash, Location
 from typing import Generator
+
+from geolib import geohash as geohashlib
+
+from geo_transformer.models import Geohash, Location
 from geo_transformer.trie import Trie
 
 

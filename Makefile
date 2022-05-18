@@ -12,6 +12,4 @@ test:
 	python -m pytest --cov -v -s -k "not benchmark"
 
 benchmark:
-	python -m pytest --cov -v -s -k "benchmark"
-
-profile:
+	python -m pytest -v -s -k "benchmark"
