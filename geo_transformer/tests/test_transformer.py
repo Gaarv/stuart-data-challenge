@@ -1,3 +1,5 @@
+import random
+import string
 from typing import Generator
 
 import pytest
@@ -37,8 +39,52 @@ def test_geohash_encode_benchmark(data_test_locations: Generator[Location, None,
     assert geohash == "sp3e3qe7mkcb"
 
 
-@pytest.mark.benchmark(group="trie")
-def test_query_unique_prefix_benchmark(data_test_locations: Generator[Location, None, None], benchmark):
+@pytest.mark.benchmark(group="trie-insert")
+def test_build_index_benchmark_1_000(benchmark):
+    geohashs = generate_fake_random_geohash(1_000)
+    benchmark(build, geohashs)
+
+
+@pytest.mark.benchmark(group="trie-insert")
+def test_build_index_benchmark_10_000(benchmark):
+    geohashs = generate_fake_random_geohash(10_000)
+    benchmark(build, geohashs)
+
+
+@pytest.mark.benchmark(group="trie-insert")
+def test_build_index_benchmark_100_000(benchmark):
+    geohashs = generate_fake_random_geohash(100_000)
+    benchmark(build, geohashs)
+
+
+@pytest.mark.benchmark(group="trie-insert")
+def test_build_index_benchmark_1_000_000(benchmark):
+    geohashs = generate_fake_random_geohash(1_000_000)
+    benchmark(build, geohashs)
+
+
+@pytest.mark.benchmark(group="trie-query")
+def test_query_unique_prefix_benchmark_small_trie(data_test_locations: Generator[Location, None, None], benchmark):
     index = build(encode(location.lat, location.lng) for location in data_test_locations)
     prefix = benchmark(query_unique_prefix, "sp3e3qe7mkcb", index)
     assert prefix == "sp3e3"
+
+
+@pytest.mark.benchmark(group="trie-query")
+def test_query_unique_prefix_benchmark_large_trie(benchmark):
+    geohashs = generate_fake_random_geohash(1_000_000)
+    index = build(geohashs)
+    benchmark(query_unique_prefix, generate_fake_random_geohash(1), index)
+
+
+def generate_fake_random_geohash(size: int) -> Generator[str, None, None]:
+    """Generate a fake (invalid) geohash-like of stringof with 12 random characters
+
+    Args:
+        size (int): number of fake geohashs to generate
+
+    Yields:
+        Generator[str, None, None]: fake geohashs strings
+    """
+    for _ in range(size):
+        yield "".join(random.choice(string.ascii_lowercase) for _ in range(12))
