@@ -9,7 +9,7 @@ class Location(NamedTuple):
 
 
 class Geohash(NamedTuple):
-    """A geohash containing original location, geohash encoding and a unique prefix identifier."""
+    """A object containing original location, geohash encoding and a unique prefix identifier."""
 
     location: Location
     geohash: str

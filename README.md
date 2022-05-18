@@ -75,13 +75,13 @@ Python source code is formatted with [Black](https://github.com/psf/black).
 
 Similar to [Setup](#setup), while at the root of the project, install development requirements and package locally with:
 
-`make install-dev`.
+    make install-dev
 
 # Run tests
 
 Tests can be run with:
 
-`make test`
+    make test
 
 The console prints tests outputs as well as code coverage.
 
@@ -89,7 +89,7 @@ The console prints tests outputs as well as code coverage.
 
 Benchmarks can be run with:
 
-`make benchmark`
+    make benchmark
 
 # Updating dependencies
 

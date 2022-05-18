@@ -20,17 +20,19 @@ def main(
 
         if extracted_file:
             stream_locations = partial(io.load_locations, extracted_file)  # use partial as generator factory
-            prefixes = (transformer.encode(location.lat, location.lng) for location in stream_locations())
+            geohashed_locations = (transformer.encode(location.lat, location.lng) for location in stream_locations())
 
             if verbose:
                 typer.secho(f"Loading locations from {extracted_file.as_posix()}", fg=typer.colors.GREEN, err=True)
 
-            index = transformer.build(prefixes)
+            index = transformer.build(geohashed_locations)
             geohashs = transformer.transform(stream_locations(), index)
 
             if not output_file:
                 io.print_to_console(geohashs)
             else:
+                if verbose:
+                    typer.secho(f"Saving geohashes to {output_file.as_posix()}", fg=typer.colors.GREEN, err=True)
                 io.write_to_file(output_file, geohashs)
         else:
             raise typer.Exit(code=1)
