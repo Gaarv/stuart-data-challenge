@@ -13,3 +13,6 @@ test:
 
 benchmark:
 	python -m pytest -v -s -k "benchmark"
+
+standalone:
+	pyinstaller --onefile geo_transformer/app.py --name geo-transformer

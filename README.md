@@ -91,6 +91,18 @@ Benchmarks can be run with:
 
     make benchmark
 
+# Creating a standalone binary
+
+A standalone binary for your platform can be created with:
+
+    make standalone
+
+And will be found as `geo-transformer` in newly created `dist` directory. The produced binary does not require any Python installation or dependencies and can be run just like in [Usage](#usage) with:
+
+    ./geo-transformer <input file>
+
+A downloadable version (ELF / Linux only) is available in the `Releases` section.
+
 # Updating dependencies
 
 The requirements files `requirements.txt` and `requirements-dev.txt` are generated with `pip-compile` from [pip-tools](https://github.com/jazzband/pip-tools). 
