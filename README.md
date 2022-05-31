@@ -1,4 +1,4 @@
-[![Test](https://github.com/StuartHiring/python-test-sebastienhoarau/actions/workflows/test.yml/badge.svg)](https://github.com/StuartHiring/python-test-sebastienhoarau/actions/workflows/test.yml)
+[![Test](https://github.com/gaarv/stuart-data-challenge/actions/workflows/test.yml/badge.svg)](https://github.com/gaarv/stuart-data-challenge/actions/workflows/test.yml)
 
 :globe_with_meridians: Unique Geohash :globe_with_meridians:
 ===
